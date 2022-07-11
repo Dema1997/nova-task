@@ -1,27 +1,20 @@
 import { NominatePeerForm, NominationsList } from "./components";
-import { nominationsMockdata } from "./data";
+import styled from "styled-components";
 
-const appContainer: React.CSSProperties = {
-  display: "flex",
-  height: "100vh",
-  justifyContent: "center",
-  alignItems: "center",
-};
-const container: React.CSSProperties = {
-  width: "70%",
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "space-around",
-};
+const Container = styled.div`
+  width: 70vw;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+`;
 
 function App() {
   return (
-    <div style={appContainer}>
-      <div style={container}>
-        <NominatePeerForm />
-        <NominationsList items={nominationsMockdata} />
-      </div>
-    </div>
+    <Container>
+      <NominatePeerForm />
+      <NominationsList />
+    </Container>
   );
 }
 

@@ -1,32 +1,64 @@
 // import axios from "axios";
 import * as React from "react";
+import { Button } from "../ui-components/Button";
+import { Input } from "../ui-components/Input";
+import { InputRange } from "../ui-components/InputRange";
+import { TextArea } from "../ui-components/TextArea";
+
+const formDataInitialstate = {
+  email: "",
+  description: "",
+  score: {
+    involvement: 0,
+    talent: 0,
+  },
+};
 
 interface FormData {
   email: string;
   description: string;
-  involvment: number;
-  talent: number;
+  score: {
+    involvement: number;
+    talent: number;
+  };
 }
 
 const NominatePeerForm: React.FC = () => {
-  const [formData, setFormData] = React.useState<FormData>({
-    email: "",
-    description: "",
-    involvment: 0,
-    talent: 0,
-  });
+  const form = React.useRef();
+
+  const [formData, setFormData] =
+    React.useState<FormData>(formDataInitialstate);
   const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
+
+  const sendEmail = (_content: string, _to: string) => {};
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
 
+    if (formData.score.talent < 8) {
+      sendEmail(
+        "Nomination rejected because talent is minor than 8",
+        formData.email
+      );
+      sendEmail(
+        "Nomination rejected because talent is minor than 8",
+        "referrer@gmail.com"
+      );
+    }
+
     /* Decommented this when BE is ready
     axios
-      .post("/apiUrl/...")
+      .post("/members/${memberId}/nominations")
       .then((res) => {
+        if(res.status === 409){
+          setIsSubmitting(false);
+          alert('Nomination already exists')
+          return
+        }
+
         setIsSubmitting(false);
-        alert(`STATUS 200: ${res.data}`);
+        alert('Operation succeded');
       })
       .catch((e) => {
         setIsSubmitting(false);
@@ -39,13 +71,10 @@ const NominatePeerForm: React.FC = () => {
     }, 500);
   };
 
-  const handleChange = (changedField: string, value: string) => {
-    setFormData({ ...formData, [changedField]: value });
-  };
-
   return (
     <div style={{ marginTop: 50, width: 350 }}>
       <form
+        ref={form.current}
         style={{
           background: "#0eb0a3",
           padding: 60,
@@ -58,32 +87,24 @@ const NominatePeerForm: React.FC = () => {
         }}
         onSubmit={handleSubmit}
       >
-        <input
-          onChange={(e) => handleChange("email", e.target.value)}
-          style={{
-            marginTop: 30,
-            width: "100%",
-            padding: 15,
-            border: "1px solid #f2f2f2",
-            borderRadius: 5,
-          }}
-          type="text"
+        <Input
+          onChange={(e) =>
+            setFormData({ ...formData, [e.target.name]: e.target.value })
+          }
+          type="email"
           name="email"
           placeholder="Email"
           value={formData.email}
         />
-        <textarea
+        <TextArea
+          style={{ width: "100%", marginTop: 15 }}
           rows={10}
-          onChange={(e) => handleChange("description", e.currentTarget.value)}
-          style={{
-            resize: "none",
-            marginTop: 20,
-            width: "100%",
-            flex: 1,
-            padding: 15,
-            border: "1px solid #f2f2f2",
-            borderRadius: 5,
-          }}
+          onChange={(e) =>
+            setFormData({
+              ...formData,
+              [e.currentTarget.name]: e.currentTarget.value,
+            })
+          }
           name="description"
           value={formData.description}
           placeholder="Description"
@@ -101,10 +122,26 @@ const NominatePeerForm: React.FC = () => {
               flexDirection: "column",
               display: "flex",
               color: "white",
+              fontWeight: "bold",
             }}
           >
             Involvement
-            <input defaultValue={5} min={0} max={10} type="range" step={1} />
+            <InputRange
+              name="involvement"
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  score: {
+                    ...formData.score,
+                    involvement: +e.currentTarget.value,
+                  },
+                })
+              }
+              defaultValue={5}
+              min={0}
+              max={10}
+              step={1}
+            />
           </label>
           <label
             style={{
@@ -112,32 +149,38 @@ const NominatePeerForm: React.FC = () => {
               marginTop: 30,
               flexDirection: "column",
               display: "flex",
+              fontWeight: "bold",
             }}
           >
             Talent
-            <input step={1} defaultValue={5} min={0} max={10} type="range" />
+            <InputRange
+              name="talent"
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  score: {
+                    ...formData.score,
+                    talent: +e.currentTarget.value,
+                  },
+                })
+              }
+              step={1}
+              defaultValue={5}
+              min={0}
+              max={10}
+            />
           </label>
         </div>
 
-        <button
+        <Button
           type="submit"
           style={{
-            display: "flex",
-            margin: "auto",
-            width: "50%",
-            padding: 15,
-            border: "1px solid #f2f2f2",
-            borderRadius: 5,
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "white",
-            color: "#222222",
+            width: "60%",
             marginTop: 40,
-            marginBottom: 30,
           }}
         >
           {isSubmitting ? "SENDING.." : "SEND"}
-        </button>
+        </Button>
       </form>
     </div>
   );
