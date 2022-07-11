@@ -1,10 +1,21 @@
 // import axios from "axios";
 import * as React from "react";
+import styled from "styled-components";
 import { Button } from "../ui-components/Button";
 import { Input } from "../ui-components/Input";
 import { InputRange } from "../ui-components/InputRange";
 import { TextArea } from "../ui-components/TextArea";
 
+const StyledForm = styled.form`
+  background: #0eb0a3;
+  padding: 60px;
+  padding-bottom: 30px;
+  padding-top: 30px;
+  margin-bottom: 30px;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+`;
 const formDataInitialstate = {
   email: "",
   description: "",
@@ -48,6 +59,7 @@ const NominatePeerForm: React.FC = () => {
     }
 
     /* Decommented this when BE is ready
+
     axios
       .post("/members/${memberId}/nominations")
       .then((res) => {
@@ -73,20 +85,7 @@ const NominatePeerForm: React.FC = () => {
 
   return (
     <div style={{ marginTop: 50, width: 350 }}>
-      <form
-        ref={form.current}
-        style={{
-          background: "#0eb0a3",
-          padding: 60,
-          paddingBottom: 30,
-          paddingTop: 30,
-          marginBottom: 30,
-          flexDirection: "column",
-          display: "flex",
-          alignItems: "center",
-        }}
-        onSubmit={handleSubmit}
-      >
+      <StyledForm ref={form.current} onSubmit={handleSubmit}>
         <Input
           onChange={(e) =>
             setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -181,7 +180,7 @@ const NominatePeerForm: React.FC = () => {
         >
           {isSubmitting ? "SENDING.." : "SEND"}
         </Button>
-      </form>
+      </StyledForm>
     </div>
   );
 };

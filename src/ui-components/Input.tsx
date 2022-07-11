@@ -1,13 +1,5 @@
 import styled from "styled-components";
 
-interface InputProps {
-  value: string;
-  name: string;
-  placeholder: string;
-  type?: React.HTMLInputTypeAttribute;
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
-}
-
 const StyledInput = styled.input`
   margin-top: 30px;
   padding: 15px;
@@ -15,6 +7,13 @@ const StyledInput = styled.input`
   border-radius: 5px;
   font-weight: bold;
 `;
+interface InputProps {
+  value: string;
+  name: string;
+  placeholder: string;
+  type?: React.HTMLInputTypeAttribute;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+}
 
 const Input: React.FC<InputProps> = ({
   onChange,

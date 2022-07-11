@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as React from "react";
-import DataTable from "react-data-table-component";
 import { nominationsMockdata } from "../data";
+import { Table } from "../ui-components/Table";
 
 const columns = [
   {
@@ -42,14 +42,14 @@ interface NominationsFetchDataResponse {
 }
 
 export interface Nomination {
-  id: string; // UUID
+  id: string;
   email: string;
   description: string;
   score: {
     involvement: number;
     talent: number;
   };
-  referrer: string; // UUID
+  referrer: string;
   dateReferred: string;
   status: "PENDING" | "REJECTED";
 }
@@ -82,7 +82,7 @@ const NominationsList = () => {
 
   return (
     <div style={{ marginTop: 50, maxWidth: 500 }}>
-      <DataTable
+      <Table
         theme="light"
         columns={columns}
         data={filteredNominations}
