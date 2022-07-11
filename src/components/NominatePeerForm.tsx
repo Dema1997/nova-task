@@ -35,8 +35,6 @@ interface FormData {
 }
 
 const NominatePeerForm: React.FC = () => {
-  const form = React.useRef();
-
   const [formData, setFormData] =
     React.useState<FormData>(formDataInitialstate);
   const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
@@ -63,14 +61,21 @@ const NominatePeerForm: React.FC = () => {
     axios
       .post("/members/${memberId}/nominations")
       .then((res) => {
+        // TODO
         if(res.status === 409){
           setIsSubmitting(false);
-          alert('Nomination already exists')
+          alert('Nomination with this email already exists')
           return
         }
 
-        setIsSubmitting(false);
-        alert('Operation succeded');
+        // TODO
+         if(res.status === 200){
+          setIsSubmitting(false);
+          setIsSubmitting(false);
+           alert('Operation succeded');  
+        }
+
+
       })
       .catch((e) => {
         setIsSubmitting(false);
@@ -85,7 +90,7 @@ const NominatePeerForm: React.FC = () => {
 
   return (
     <div style={{ marginTop: 50, width: 350 }}>
-      <StyledForm ref={form.current} onSubmit={handleSubmit}>
+      <StyledForm onSubmit={handleSubmit}>
         <Input
           onChange={(e) =>
             setFormData({ ...formData, [e.target.name]: e.target.value })

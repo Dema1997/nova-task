@@ -30,7 +30,7 @@ export const nominationsMockdata: Nomination[] = [
     email: "newcandidate@gmail.com",
     description: "newcandidate@gmail.com",
     score: {
-      involvement: 9,
+      involvement: 8,
       talent: 8,
     },
     referrer: "8c8ff55c-11f5-4b3c-8596-3d9831a8934d",
