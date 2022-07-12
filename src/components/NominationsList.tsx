@@ -8,11 +8,15 @@ const columns = [
     name: "EMAIL",
     selector: (row: Nomination) => row.email,
     sortable: false,
+    wrap: true,
+    width: "200px",
   },
   {
     name: "DESCRIPTION",
     selector: (row: Nomination) => row.description,
     sortable: false,
+    wrap: true,
+    width: "200px",
   },
   {
     name: "INVOLVEMENT",
@@ -28,11 +32,14 @@ const columns = [
     name: "STATUS",
     selector: (row: Nomination) => row.status,
     sortable: false,
+    wrap: true,
   },
   {
     name: "DATE",
     selector: (row: Nomination) => row.dateReferred,
-    sortable: true,
+    sortable: false,
+    wrap: true,
+    width: "200px",
   },
 ];
 
