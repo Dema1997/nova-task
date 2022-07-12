@@ -41,7 +41,7 @@ const NominatePeerForm: React.FC = () => {
   const [formData, setFormData] =
     React.useState<FormData>(formDataInitialstate);
   const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
-  const [error, setError] = React.useState<string | null>(null);
+  const [message, setMessage] = React.useState<string | null>(null);
 
   const sendEmail = (_content: string, _to: string) => {};
 
@@ -60,20 +60,22 @@ const NominatePeerForm: React.FC = () => {
       );
     }
 
-    axios
+    /*     axios
       .post<{ message: string }>(`/members/${memberId}/nominations`)
       .then((res) => {
         setIsSubmitting(false);
-        alert(res.data.message);
+        setMessage(res.data.message);
       })
       .catch((e: Error | AxiosError<{ message: string }>) => {
         if (axios.isAxiosError(e) && e.response) {
-          setError(e.response?.data.message);
+          setMessage(e.response?.data.message || "error test");
         } else {
-          setError(e.message);
+          setMessage(e.message || "error test");
         }
         setIsSubmitting(false);
-      });
+      }); */
+
+    setTimeout(() => setIsSubmitting(false), 1200);
   };
 
   return (
@@ -116,7 +118,7 @@ const NominatePeerForm: React.FC = () => {
               fontWeight: "bold",
             }}
           >
-            Involvement
+            Involvement: {formData.score.involvement}
             <InputRange
               name="involvement"
               onChange={(e) =>
@@ -143,7 +145,7 @@ const NominatePeerForm: React.FC = () => {
               fontWeight: "bold",
             }}
           >
-            Talent
+            Talent: {formData.score.talent}
             <InputRange
               name="talent"
               onChange={(e) =>
@@ -163,7 +165,7 @@ const NominatePeerForm: React.FC = () => {
           </label>
         </div>
 
-        {error && <p style={{ marginTop: 80 }}>{error}</p>}
+        {message && <p style={{ marginTop: 20 }}>{message}</p>}
 
         <Button
           type="submit"

@@ -63,7 +63,7 @@ const NominationsList = () => {
   const fetchNominationsData = () => {
     setIsLoading(true);
 
-    axios
+    /*     axios
       .get<NominationsFetchDataResponse>("/nominations")
       .then((res) => {
         setNominations(res.data.data);
@@ -71,12 +71,14 @@ const NominationsList = () => {
       })
       .catch((e: Error | AxiosError<{ message: string }>) => {
         if (axios.isAxiosError(e) && e.response) {
-          setError(e.response?.data.message);
+          setError(e.response?.data.message || "error test");
         } else {
-          setError(e.message);
+          setError(e.message || "error test");
         }
         setIsLoading(false);
-      });
+      }); */
+
+    setTimeout(() => setIsLoading(false), 1200);
   };
 
   React.useEffect(() => fetchNominationsData(), []);
@@ -86,7 +88,10 @@ const NominationsList = () => {
   );
 
   if (error) return <p style={{ marginTop: 80 }}>{error}</p>;
-  if (isLoading) return <p style={{ marginTop: 80 }}>Loading data..</p>;
+  if (isLoading)
+    return <p style={{ marginTop: 80, maxWidth: 500 }}>Loading data..</p>;
+  if (filteredNominations.length <= 0)
+    return <p style={{ marginTop: 80, maxWidth: 500 }}>No data available</p>;
 
   return (
     <div style={{ marginTop: 50, maxWidth: 500 }}>
