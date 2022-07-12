@@ -2,6 +2,7 @@ import axios, { AxiosError } from "axios";
 import * as React from "react";
 import { novaApi } from "../api/nova-api";
 import { nominationsMockdata } from "../data";
+import { WithLoading } from "../hoc/WithLoading";
 import { Table } from "../ui-components/Table";
 
 const columns = [
@@ -97,12 +98,10 @@ const NominationsList = () => {
   );
 
   if (error) return <p style={{ marginTop: 80 }}>{error}</p>;
-  if (isLoading)
-    return <p style={{ marginTop: 80, maxWidth: 500 }}>Loading data..</p>;
   if (filteredNominations.length <= 0)
     return <p style={{ marginTop: 80, maxWidth: 500 }}>No data available</p>;
 
-  return (
+  const TableJSX = (
     <div style={{ marginTop: 50, maxWidth: 500 }}>
       <Table
         theme="light"
@@ -112,6 +111,10 @@ const NominationsList = () => {
       />
     </div>
   );
+
+  const TableWithLoading = WithLoading(TableJSX);
+
+  return <TableWithLoading isLoading={isLoading} />;
 };
 
 export { NominationsList };
