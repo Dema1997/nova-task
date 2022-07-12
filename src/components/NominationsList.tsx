@@ -1,5 +1,6 @@
 import axios, { AxiosError } from "axios";
 import * as React from "react";
+import { novaApi } from "../api/nova-api";
 import { nominationsMockdata } from "../data";
 import { Table } from "../ui-components/Table";
 
@@ -71,7 +72,7 @@ const NominationsList = () => {
   const fetchNominationsData = () => {
     setIsLoading(true);
 
-    /*     axios
+    /* novaApi
       .get<NominationsFetchDataResponse>("/nominations")
       .then((res) => {
         setNominations(res.data.data);

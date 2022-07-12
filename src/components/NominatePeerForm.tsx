@@ -1,6 +1,7 @@
 import axios, { AxiosError } from "axios";
 import * as React from "react";
 import styled from "styled-components";
+import { novaApi } from "../api/nova-api";
 import { Button } from "../ui-components/Button";
 import { Input } from "../ui-components/Input";
 import { InputRange } from "../ui-components/InputRange";
@@ -60,7 +61,7 @@ const NominatePeerForm: React.FC = () => {
       );
     }
 
-    /*     axios
+    /* novaApi
       .post<{ message: string }>(`/members/${memberId}/nominations`)
       .then((res) => {
         setIsSubmitting(false);
