@@ -5,7 +5,7 @@ interface LoadingProps {
 }
 
 const Loading: React.FC<LoadingProps> = ({ message }) => (
-  <p style={{ marginTop: 80, maxWidth: 500 }}>{message || "Loading.."}</p>
+  <p style={{ marginTop: 80, fontWeight: "bold" }}>{message || "Loading.."}</p>
 );
 
 export { Loading };

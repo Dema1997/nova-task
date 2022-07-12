@@ -88,7 +88,7 @@ const NominationsList = () => {
         setIsLoading(false);
       }); */
 
-    setTimeout(() => setIsLoading(false), 1200);
+    setTimeout(() => setIsLoading(false), 2000);
   };
 
   React.useEffect(() => fetchNominationsData(), []);
