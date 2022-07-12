@@ -48,6 +48,7 @@ const NominatePeerForm: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setMessage(null);
     setIsSubmitting(true);
 
     if (formData.score.talent < 8) {
@@ -76,7 +77,10 @@ const NominatePeerForm: React.FC = () => {
         setIsSubmitting(false);
       }); */
 
-    setTimeout(() => setIsSubmitting(false), 1200);
+    setTimeout(() => {
+      setMessage("Fake response");
+      setIsSubmitting(false);
+    }, 1200);
   };
 
   return (
