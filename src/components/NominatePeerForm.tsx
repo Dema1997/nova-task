@@ -170,13 +170,13 @@ const NominatePeerForm: React.FC = () => {
           </label>
         </div>
 
-        {message && <p style={{ marginTop: 20 }}>{message}</p>}
+        {message && <p style={{ fontWeight: "bold" }}>{message}</p>}
 
         <Button
           type="submit"
           style={{
             width: "60%",
-            marginTop: 40,
+            marginTop: message ? 10 : 40,
           }}
         >
           {isSubmitting ? "SENDING.." : "SEND"}
