@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import * as React from "react";
 import { nominationsMockdata } from "../data";
 import { Table } from "../ui-components/Table";
@@ -58,27 +58,35 @@ const NominationsList = () => {
   const [nominations, setNominations] =
     React.useState<Nomination[]>(nominationsMockdata);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<string | null>(null);
 
   const fetchNominationsData = () => {
+    setIsLoading(true);
+
     axios
       .get<NominationsFetchDataResponse>("/nominations")
       .then((res) => {
         setNominations(res.data.data);
         setIsLoading(false);
       })
-      .catch((e) => {
+      .catch((e: Error | AxiosError<{ message: string }>) => {
+        if (axios.isAxiosError(e) && e.response) {
+          setError(e.response?.data.message);
+        } else {
+          setError(e.message);
+        }
         setIsLoading(false);
-        alert(e);
       });
   };
 
   React.useEffect(() => fetchNominationsData(), []);
 
-  isLoading && <p>Loading data..</p>;
-
   const filteredNominations = nominations.filter(
     (nomination) => nomination.status !== "REJECTED"
   );
+
+  if (error) return <p style={{ marginTop: 80 }}>{error}</p>;
+  if (isLoading) return <p style={{ marginTop: 80 }}>Loading data..</p>;
 
   return (
     <div style={{ marginTop: 50, maxWidth: 500 }}>

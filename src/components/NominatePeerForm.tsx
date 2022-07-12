@@ -1,4 +1,4 @@
-// import axios from "axios";
+import axios, { AxiosError } from "axios";
 import * as React from "react";
 import styled from "styled-components";
 import { Button } from "../ui-components/Button";
@@ -16,12 +16,13 @@ const StyledForm = styled.form`
   display: flex;
   align-items: center;
 `;
+
 const formDataInitialstate = {
   email: "",
   description: "",
   score: {
-    involvement: 0,
-    talent: 0,
+    involvement: 6,
+    talent: 6,
   },
 };
 
@@ -34,10 +35,13 @@ interface FormData {
   };
 }
 
+const memberId = "8c8ff55c-11f5-4b3c-8596-3d9831a8934d";
+
 const NominatePeerForm: React.FC = () => {
   const [formData, setFormData] =
     React.useState<FormData>(formDataInitialstate);
   const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<string | null>(null);
 
   const sendEmail = (_content: string, _to: string) => {};
 
@@ -56,36 +60,20 @@ const NominatePeerForm: React.FC = () => {
       );
     }
 
-    /* Decommented this when BE is ready
-
     axios
-      .post("/members/${memberId}/nominations")
+      .post<{ message: string }>(`/members/${memberId}/nominations`)
       .then((res) => {
-        // TODO
-        if(res.status === 409){
-          setIsSubmitting(false);
-          alert('Nomination with this email already exists')
-          return
-        }
-
-        // TODO
-         if(res.status === 200){
-          setIsSubmitting(false);
-          setIsSubmitting(false);
-           alert('Operation succeded');  
-        }
-
-
-      })
-      .catch((e) => {
         setIsSubmitting(false);
-        alert(`ERROR: ${e}`);
-      }); */
-
-    // Delete this when BE is ready
-    setTimeout(() => {
-      setIsSubmitting(false);
-    }, 500);
+        alert(res.data.message);
+      })
+      .catch((e: Error | AxiosError<{ message: string }>) => {
+        if (axios.isAxiosError(e) && e.response) {
+          setError(e.response?.data.message);
+        } else {
+          setError(e.message);
+        }
+        setIsSubmitting(false);
+      });
   };
 
   return (
@@ -113,7 +101,6 @@ const NominatePeerForm: React.FC = () => {
           value={formData.description}
           placeholder="Description"
         />
-
         <div
           style={{
             padding: 15,
@@ -175,6 +162,8 @@ const NominatePeerForm: React.FC = () => {
             />
           </label>
         </div>
+
+        {error && <p style={{ marginTop: 80 }}>{error}</p>}
 
         <Button
           type="submit"
