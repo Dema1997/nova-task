@@ -22,6 +22,7 @@ const columns = [
     name: "INVOLVEMENT",
     selector: (row: Nomination) => row.score.involvement,
     sortable: true,
+    width: "140px",
   },
   {
     name: "TALENT",
@@ -39,7 +40,7 @@ const columns = [
     selector: (row: Nomination) => row.dateReferred,
     sortable: false,
     wrap: true,
-    width: "200px",
+    width: "250px",
   },
 ];
 
